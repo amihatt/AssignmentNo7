@@ -24,7 +24,7 @@ public class RingBuffer {
     private double[] rb;          // items in the buffer
     private int first;            // index for the next dequeue or peek
     private int last;             // index for the next enqueue
-    private int size;             // number of items in hiiiiiiii
+    private int size;             // number of items in buffer
 
     // create an empty buffer, with given max capacity
     public RingBuffer(int capacity) {
@@ -35,7 +35,7 @@ public class RingBuffer {
 
     // return number of items currently in the buffer
     public int size() {
-        size = last - first; 
+    	//System.out.println("size = " + size);
         return size;
     }
 
@@ -62,8 +62,14 @@ public class RingBuffer {
         if (isFull()) {
             throw new RuntimeException("Ring buffer overflow");
         } else {
+        	if (last == rb.length - 1) {
+        		rb[last] = x;
+        		last = 0;
+        	} else {
         	rb[last] = x;
         	last++;
+        	} 
+        	size++;
         	//System.out.print(", " + last);
         }
     }
@@ -75,8 +81,13 @@ public class RingBuffer {
         } else {
         	double a = rb[first]; //changed to a to be more consistent with GuitarString
         	rb[first] = 0;
-        	first++;
-        	System.out.printf("%n%.1f", a);
+        	if (first == rb.length - 1) {
+        		first = 0;
+        	} else {
+        		first++;
+        	}
+        	//System.out.printf("%n%.1f", a);
+        	size--;
         	return a;
         }
     }
@@ -103,6 +114,7 @@ public class RingBuffer {
         	test.print(j);
         }
         double s = test.dequeue();
+        System.out.println("size = " + test.size);
         
         
     	//int N = Integer.parseInt(args[0]);
@@ -113,13 +125,14 @@ public class RingBuffer {
         }
         double t = buffer.dequeue();
         buffer.enqueue(t);
-        //System.out.println("Size after wrap-around is " + buffer.size());
-        //while (buffer.size() >= 2) {
-            //double x = buffer.dequeue();
-            //double y = buffer.dequeue();
-            //buffer.enqueue(x + y);
-        //}
-        //System.out.println(buffer.peek());*/
+        System.out.println("Size after wrap-around is " + buffer.size());
+        while (buffer.size() >= 2) {
+            double x = buffer.dequeue();
+            double y = buffer.dequeue();
+            System.out.println("size = " + buffer.size);
+            buffer.enqueue(x + y);
+        }
+        System.out.println(buffer.peek());
     }
 
 }
