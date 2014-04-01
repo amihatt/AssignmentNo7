@@ -24,7 +24,7 @@ public class RingBuffer {
     private double[] rb;          // items in the buffer
     private int first;            // index for the next dequeue or peek
     private int last;             // index for the next enqueue
-    private int size;             // number of items in the buffer
+    private int size;             // number of items in hiiiiiiii
 
     // create an empty buffer, with given max capacity
     public RingBuffer(int capacity) {
